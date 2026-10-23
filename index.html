@@ -363,18 +363,18 @@
     <!-- MISSING CHILD FORM -->
     <section id="missing" class="page">
         <div class="card">
-            <h2>Missing Child — Report</h2>
+            <h2>Missing Child — Demo Report</h2>
 
             <p class="small-note">
                 Use fictional information and an image you are authorized to use.
             </p>
 
             <form id="missingForm">
-                <label for="missingLabel">Name</label>
+                <label for="missingLabel">Synthetic case label</label>
                 <input
                     id="missingLabel"
                     type="text"
-                    placeholder="Example: Kavitha"
+                    placeholder="Example: Demo Case A"
                     required
                 >
 
@@ -388,18 +388,18 @@
                     required
                 >
 
-                <label for="missingArea">General area</label>
+                <label for="missingArea">General demo area</label>
                 <input
                     id="missingArea"
                     type="text"
-                    placeholder="Example: North"
+                    placeholder="Example: Demo Area North"
                     required
                 >
 
-                <label for="missingDate">Report date</label>
+                <label for="missingDate">Demo report date</label>
                 <input id="missingDate" type="date" required>
 
-                <label for="missingImage">Upload fictional image</label>
+                <label for="missingImage">Upload fictional demo image</label>
                 <div class="image-upload">
                     <input
                         id="missingImage"
@@ -419,7 +419,7 @@
                     >
                 </div>
 
-                <label for="missingDetails">Non-identifying details</label>
+                <label for="missingDetails">Non-identifying demo notes</label>
                 <textarea
                     id="missingDetails"
                     placeholder="Enter fictional information only"
@@ -430,7 +430,7 @@
                     I confirm this is synthetic demo data and an authorized image.
                 </label>
 
-                <button class="btn" type="submit">Save Report</button>
+                <button class="btn" type="submit">Save Demo Report</button>
             </form>
 
             <p id="missingMessage" role="status" aria-live="polite"></p>
@@ -440,7 +440,7 @@
     <!-- FOUND CHILD FORM -->
     <section id="found" class="page">
         <div class="card">
-            <h2>Found Child — Report</h2>
+            <h2>Found Child — Demo Report</h2>
 
             <p class="small-note">
                 Use fictional information and a fictional image only.
@@ -457,18 +457,18 @@
                     required
                 >
 
-                <label for="foundArea">General area</label>
+                <label for="foundArea">General demo area</label>
                 <input
                     id="foundArea"
                     type="text"
-                    placeholder="Example: North"
+                    placeholder="Example: Demo Area North"
                     required
                 >
 
-                <label for="foundDate">Report date</label>
+                <label for="foundDate">Demo report date</label>
                 <input id="foundDate" type="date" required>
 
-                <label for="foundImage">Upload fictional image</label>
+                <label for="foundImage">Upload fictional demo image</label>
                 <div class="image-upload">
                     <input
                         id="foundImage"
@@ -488,7 +488,7 @@
                     >
                 </div>
 
-                <label for="foundDetails">Non-identifying details</label>
+                <label for="foundDetails">Non-identifying demo notes</label>
                 <textarea
                     id="foundDetails"
                     placeholder="Enter fictional information only"
@@ -499,7 +499,7 @@
                     I confirm this is synthetic demo data and an authorized image.
                 </label>
 
-                <button class="btn" type="submit">Save Report</button>
+                <button class="btn" type="submit">Save Demo Report</button>
             </form>
 
             <p id="foundMessage" role="status" aria-live="polite"></p>
@@ -523,7 +523,7 @@
 
     <!-- DASHBOARD -->
     <section id="dashboard" class="page">
-        <h2>Dashboard</h2>
+        <h2>Demo Dashboard</h2>
 
         <div class="stats">
             <div class="stat">
@@ -543,7 +543,7 @@
         </div>
 
         <div class="card">
-            <h2>Manage data</h2>
+            <h2>Manage demo data</h2>
 
             <button class="btn" onclick="exportData()">Export JSON</button>
             <button class="btn" onclick="clearData()">Clear Data</button>
@@ -765,6 +765,170 @@
         window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
+    // Download the receipt as a standalone HTML file.
+    // This function lives in the main page so the receipt button does not need
+    // fragile inline JavaScript containing escaped quotes or newlines.
+    window.downloadFindMyChildReceipt = function (receiptWindow) {
+        try {
+            const receiptHTML = "<!DOCTYPE html>\n" +
+                receiptWindow.document.documentElement.outerHTML;
+            const blob = new Blob([receiptHTML], {
+                type: "text/html;charset=utf-8"
+            });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = "FindMyChild-Acknowledgement.html";
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            setTimeout(() => URL.revokeObjectURL(url), 1000);
+        } catch (error) {
+            alert("Could not download the acknowledgement. Please use Print / Save as PDF instead.");
+            console.error(error);
+        }
+    };
+
+    // Create a demo acknowledgement containing the submitted report and image.
+    function showAcknowledgement(report, reportType) {
+        // Open the receipt directly from the submit interaction.
+        const receiptWindow = window.open("", "_blank");
+
+        if (!receiptWindow) {
+            alert(
+                "The acknowledgement popup was blocked. " +
+                "Allow pop-ups for this page, then submit the report again."
+            );
+            return;
+        }
+
+        // Escape user-entered text before inserting it into the receipt HTML.
+        const escapeHTML = (value) => String(value ?? "").replace(/[&<>"']/g, char => ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#39;"
+        })[char]);
+
+        const reference = "FMC-DEMO-" + String(report.id).slice(0, 8).toUpperCase();
+        const submittedAt = new Date().toLocaleString();
+        const nameHTML = report.label
+            ? `<p><strong>Name:</strong> ${escapeHTML(report.label)}</p>`
+            : "";
+        const imageHTML = report.image
+            ? `<img src="${report.image}" alt="Submitted fictional demo image">`
+            : "<p>No image attached.</p>";
+
+        receiptWindow.document.write(`
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>FindMyChild Acknowledgement</title>
+                <style>
+                    body {
+                        font-family: Arial, sans-serif;
+                        max-width: 750px;
+                        margin: 30px auto;
+                        padding: 20px;
+                        background: #fbf8f2;
+                        color: #243842;
+                        line-height: 1.6;
+                    }
+                    .receipt {
+                        background: white;
+                        border: 2px solid #1f827d;
+                        border-radius: 14px;
+                        padding: 25px;
+                    }
+                    h1 { color: #123b4a; margin-bottom: 5px; }
+                    h2, h3 { color: #1f827d; }
+                    .reference {
+                        background: #e4f5f1;
+                        padding: 12px;
+                        border-radius: 8px;
+                        overflow-wrap: anywhere;
+                    }
+                    .submitted-image { margin-top: 15px; }
+                    .submitted-image img {
+                        display: block;
+                        max-width: 100%;
+                        max-height: 350px;
+                        width: auto;
+                        object-fit: contain;
+                        border: 1px solid #cfdddf;
+                        border-radius: 10px;
+                        margin-top: 10px;
+                    }
+                    .notice {
+                        background: #fff7e5;
+                        border: 1px solid #f0dfb4;
+                        border-radius: 8px;
+                        padding: 12px;
+                        margin-top: 20px;
+                    }
+                    .actions { margin-top: 20px; }
+                    button {
+                        padding: 12px 18px;
+                        margin: 5px 8px 5px 0;
+                        border: none;
+                        border-radius: 8px;
+                        background: #1f827d;
+                        color: white;
+                        font-weight: bold;
+                        cursor: pointer;
+                    }
+                    button:hover { background: #123b4a; }
+                    @media print {
+                        body { margin: 0; padding: 0; background: white; }
+                        .receipt { border: 1px solid #999; border-radius: 0; }
+                        .actions { display: none; }
+                        .notice { break-inside: avoid; }
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="receipt">
+                    <h1>FindMyChild</h1>
+                    <h2>Demo Acknowledgement Receipt</h2>
+                    <p class="reference">
+                        <strong>Reference number:</strong> ${escapeHTML(reference)}
+                    </p>
+                    <p><strong>Report type:</strong> ${escapeHTML(reportType)}</p>
+                    <p><strong>Submitted:</strong> ${escapeHTML(submittedAt)}</p>
+                    <hr>
+                    ${nameHTML}
+                    <p><strong>Approximate age:</strong> ${escapeHTML(report.age)}</p>
+                    <p><strong>General area:</strong> ${escapeHTML(report.area)}</p>
+                    <p><strong>Report date:</strong> ${escapeHTML(report.date)}</p>
+                    <p><strong>Non-identifying details:</strong><br>${escapeHTML(report.details || "None provided")}</p>
+                    <div class="submitted-image">
+                        <h3>Submitted Demo Image</h3>
+                        ${imageHTML}
+                    </div>
+                    <div class="notice">
+                        <strong>Important safety notice</strong>
+                        <p>
+                            This receipt is generated by an educational prototype using synthetic demo data.
+                            It is not an official report, does not verify the information, and does not confirm
+                            that authorities have been notified.
+                        </p>
+                    </div>
+                    <div class="actions">
+                        <button type="button" onclick="window.opener.downloadFindMyChildReceipt(window)">Download Acknowledgement</button>
+                        <button type="button" onclick="window.print()">Print / Save as PDF</button>
+                        <button type="button" onclick="window.close()">Close</button>
+                    </div>
+                </div>
+            </body>
+            </html>
+        `);
+
+        receiptWindow.document.close();
+    }
+
     // Submit a missing-child demo report.
     document.getElementById("missingForm").addEventListener(
         "submit",
@@ -805,6 +969,7 @@
 
             message.textContent =
                 "Synthetic missing report and image saved in this browser.";
+            showAcknowledgement(report, "Missing Child");
         }
     );
 
@@ -847,6 +1012,7 @@
 
             message.textContent =
                 "Synthetic found report and image saved in this browser.";
+            showAcknowledgement(report, "Found Child");
         }
     );
 
@@ -996,6 +1162,5 @@
 
     updateDashboard();
 </script>
-
 </body>
 </html>
