@@ -1,632 +1,1000 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FindMyChild | Child Safety Portal</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FindMyChild | Every Reunion Starts With Care</title>
 
-<style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+    <style>
+        :root {
+            --navy: #123b4a;
+            --teal: #1f827d;
+            --mint: #e4f5f1;
+            --cream: #fbf8f2;
+            --text: #243842;
+        }
 
-body {
-    font-family: Arial, sans-serif;
-    background: #f3f6fb;
-    color: #243247;
-    line-height: 1.6;
-}
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-header {
-    background: #173b68;
-    color: white;
-    padding: 20px 6%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 12px;
-}
+        body {
+            font-family: Arial, sans-serif;
+            background: var(--cream);
+            color: var(--text);
+            line-height: 1.6;
+        }
 
-header h1 {
-    font-size: 25px;
-}
+        header {
+            background: white;
+            padding: 16px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            border-bottom: 1px solid #dce7e7;
+        }
 
-nav {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-}
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
 
-nav button {
-    background: transparent;
-    color: white;
-    border: 1px solid #ffffff70;
-    padding: 9px 12px;
-    border-radius: 6px;
-    cursor: pointer;
-}
+        .logo {
+            width: 50px;
+            height: 50px;
+            background: var(--mint);
+            border-radius: 15px;
+            display: grid;
+            place-items: center;
+            font-size: 28px;
+        }
 
-nav button:hover,
-nav button.active {
-    background: white;
-    color: #173b68;
-}
+        .brand-name {
+            font-size: 25px;
+            font-weight: bold;
+            color: var(--navy);
+        }
 
-main {
-    max-width: 1100px;
-    margin: 30px auto;
-    padding: 0 18px;
-}
+        .brand-name span {
+            color: var(--teal);
+        }
 
-.page {
-    display: none;
-}
+        nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
 
-.page.active {
-    display: block;
-}
+        nav button {
+            background: transparent;
+            color: var(--navy);
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
 
-.hero {
-    background: white;
-    padding: 35px;
-    border-radius: 12px;
-    border-left: 5px solid #2878c8;
-    margin-bottom: 25px;
-}
+        nav button:hover {
+            background: var(--mint);
+        }
 
-.hero h2 {
-    font-size: 30px;
-    color: #173b68;
-    margin-bottom: 10px;
-}
+        main {
+            max-width: 1100px;
+            margin: auto;
+            padding: 30px 20px;
+        }
 
-.notice {
-    background: #fff4d6;
-    border: 1px solid #e9cf83;
-    padding: 14px;
-    border-radius: 8px;
-    margin: 18px 0;
-    font-size: 14px;
-}
+        .page {
+            display: none;
+        }
 
-.cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-    gap: 18px;
-    margin-top: 20px;
-}
+        .page.active {
+            display: block;
+        }
 
-.card {
-    background: white;
-    padding: 23px;
-    border-radius: 10px;
-    box-shadow: 0 3px 12px #182b4410;
-}
+        .hero {
+            background: linear-gradient(120deg, var(--mint), white);
+            padding: 40px 30px;
+            border-radius: 24px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 25px;
+        }
 
-.card h3 {
-    color: #173b68;
-    margin-bottom: 8px;
-}
+        .hero h1 {
+            font-size: clamp(32px, 5vw, 52px);
+            line-height: 1.15;
+            margin-bottom: 18px;
+            color: var(--navy);
+        }
 
-.action {
-    display: inline-block;
-    margin-top: 15px;
-    background: #1769aa;
-    color: white;
-    border: none;
-    padding: 11px 16px;
-    border-radius: 6px;
-    cursor: pointer;
-    text-decoration: none;
-}
+        .hero h1 span {
+            color: var(--teal);
+        }
 
-.action:hover {
-    background: #104d80;
-}
+        .hero p {
+            margin-bottom: 20px;
+            color: #536b73;
+        }
 
-form {
-    background: white;
-    padding: 25px;
-    border-radius: 10px;
-    max-width: 750px;
-    box-shadow: 0 3px 12px #182b4410;
-}
+        .hero-art {
+            text-align: center;
+            font-size: 100px;
+        }
 
-form h2 {
-    color: #173b68;
-    margin-bottom: 18px;
-}
+        .btn {
+            padding: 12px 18px;
+            border: none;
+            border-radius: 10px;
+            background: var(--teal);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 5px 5px 5px 0;
+        }
 
-.form-group {
-    margin-bottom: 16px;
-}
+        .btn:hover {
+            background: var(--navy);
+        }
 
-label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 6px;
-}
+        .card {
+            background: white;
+            border: 1px solid #dce7e7;
+            border-radius: 16px;
+            padding: 24px;
+            margin-top: 20px;
+        }
 
-input, select, textarea {
-    width: 100%;
-    padding: 11px;
-    border: 1px solid #ccd5e0;
-    border-radius: 6px;
-    font: inherit;
-}
+        h2 {
+            color: var(--navy);
+            margin-bottom: 12px;
+        }
 
-textarea {
-    resize: vertical;
-    min-height: 85px;
-}
+        label {
+            display: block;
+            font-weight: bold;
+            margin: 14px 0 6px;
+        }
 
-input:focus, select:focus, textarea:focus {
-    outline: 2px solid #8bc3f5;
-    border-color: #1769aa;
-}
+        input:not([type="checkbox"]):not([type="file"]),
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cfdddf;
+            border-radius: 9px;
+            font: inherit;
+        }
 
-button[type="submit"] {
-    background: #1769aa;
-    color: white;
-    border: none;
-    padding: 12px 18px;
-    border-radius: 6px;
-    cursor: pointer;
-}
+        input[type="file"] {
+            display: block;
+            width: 100%;
+            margin-top: 10px;
+        }
 
-button[type="submit"]:hover {
-    background: #104d80;
-}
+        input[type="checkbox"] {
+            width: auto;
+            margin-right: 8px;
+        }
 
-.result {
-    margin: 15px 0;
-    padding: 13px;
-    background: #e5f5e9;
-    border-radius: 7px;
-    display: none;
-}
+        textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
 
-.record {
-    background: white;
-    padding: 18px;
-    margin: 12px 0;
-    border-radius: 8px;
-    border-left: 4px solid #2878c8;
-    overflow-wrap: anywhere;
-}
+        .image-upload {
+            border: 2px dashed #9bbfbd;
+            background: #f5fbfa;
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 8px;
+        }
 
-.record h3 {
-    color: #173b68;
-}
+        .image-preview {
+            display: none;
+            width: 160px;
+            height: 160px;
+            object-fit: contain;
+            border-radius: 12px;
+            border: 1px solid #cfdddf;
+            margin-top: 12px;
+            background: white;
+        }
 
-.muted {
-    color: #65748a;
-    font-size: 14px;
-}
+        .small-note {
+            font-size: 14px;
+            color: #536b73;
+            margin-top: 8px;
+        }
 
-.stat {
-    font-size: 30px;
-    font-weight: bold;
-    color: #1769aa;
-}
+        .notice {
+            background: #fff7e5;
+            border: 1px solid #f0dfb4;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 12px;
+        }
 
-footer {
-    text-align: center;
-    padding: 25px;
-    color: #65748a;
-}
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
 
-@media (max-width: 650px) {
-    header {
-        align-items: flex-start;
-        flex-direction: column;
-    }
+        .stat {
+            background: white;
+            border: 1px solid #dce7e7;
+            border-radius: 14px;
+            padding: 20px;
+            text-align: center;
+        }
 
-    nav button {
-        font-size: 12px;
-    }
+        .stat strong {
+            display: block;
+            font-size: 32px;
+            color: var(--teal);
+        }
 
-    .hero {
-        padding: 23px;
-    }
+        .match-images {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
 
-    .hero h2 {
-        font-size: 24px;
-    }
-}
-</style>
+        .match-image-panel {
+            background: #f5fbfa;
+            padding: 12px;
+            border-radius: 12px;
+        }
+
+        .match-image-panel img {
+            width: 100%;
+            max-width: 260px;
+            height: 220px;
+            object-fit: contain;
+            display: block;
+            background: white;
+            border: 1px solid #dce7e7;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+
+        footer {
+            background: var(--navy);
+            color: white;
+            text-align: center;
+            padding: 25px;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 700px) {
+            header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .hero {
+                grid-template-columns: 1fr;
+                padding: 25px;
+            }
+
+            .hero-art {
+                font-size: 70px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .match-images {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
 <header>
-    <h1>FindMyChild</h1>
+    <div class="brand">
+        <div class="logo" aria-hidden="true">🤱</div>
+        <div>
+            <div class="brand-name">Find<span>MyChild</span></div>
+            <small>Every reunion starts with care</small>
+        </div>
+    </div>
 
-    <nav>
-        <button class="active" data-page="home">Home</button>
-        <button data-page="missing">Report Missing</button>
-        <button data-page="found">Report Found</button>
-        <button data-page="matches">Possible Matches</button>
-        <button data-page="dashboard">Dashboard</button>
+    <nav aria-label="Main navigation">
+        <button onclick="showPage('home')">Home</button>
+        <button onclick="showPage('missing')">Report Missing</button>
+        <button onclick="showPage('found')">Report Found</button>
+        <button onclick="showPage('matches')">Potential Matches</button>
+        <button onclick="showPage('dashboard')">Dashboard</button>
+        <button onclick="showPage('safety')">Safety</button>
     </nav>
 </header>
 
 <main>
 
-<!-- HOME -->
-<section id="home" class="page active">
-    <div class="hero">
-        <h2>FindMyChild</h2>
-        <p>A child-safety reporting prototype to help organize missing-child and found-child reports for authorized review.</p>
+    <!-- HOME -->
+    <section id="home" class="page active">
+        <div class="hero">
+            <div>
+                <h1>
+                    Every child deserves
+                    <span>a safe reunion.</span>
+                </h1>
+
+                <p>
+                    FindMyChild is an educational prototype for organizing
+                    fictional missing-child and found-child reports.
+                </p>
+
+                <button class="btn" onclick="showPage('missing')">
+                    Create Missing Report
+                </button>
+
+                <button class="btn" onclick="showPage('found')">
+                    Create Found Report
+                </button>
+            </div>
+
+            <div class="hero-art" aria-hidden="true">🤱 💚</div>
+        </div>
 
         <div class="notice">
-            <strong>Important:</strong> If a child is missing or found, contact local police or emergency services promptly. This demo does not notify authorities or confirm a child's identity.
+            <strong>Important safety notice</strong>
+            <p>
+                Use synthetic data and fictional images only. This is not an
+                official reporting service and does not contact authorities.
+                For a real missing or found child, contact the appropriate
+                authorities promptly.
+            </p>
         </div>
+    </section>
 
-        <button class="action" data-go="missing">Report a Missing Child</button>
-        <button class="action" data-go="found">Report a Found Child</button>
-    </div>
-
-    <div class="cards">
+    <!-- MISSING CHILD FORM -->
+    <section id="missing" class="page">
         <div class="card">
-            <h3>Report Missing</h3>
-            <p>Enter the basic details from a missing-child report.</p>
-            <button class="action" data-go="missing">Open Form</button>
-        </div>
+            <h2>Missing Child — Report</h2>
 
+            <p class="small-note">
+                Use fictional information and an image you are authorized to use.
+            </p>
+
+            <form id="missingForm">
+                <label for="missingLabel">Name</label>
+                <input
+                    id="missingLabel"
+                    type="text"
+                    placeholder="Example: Kavitha"
+                    required
+                >
+
+                <label for="missingAge">Approximate age</label>
+                <input
+                    id="missingAge"
+                    type="number"
+                    min="0"
+                    max="17"
+                    placeholder="Example: 5"
+                    required
+                >
+
+                <label for="missingArea">General area</label>
+                <input
+                    id="missingArea"
+                    type="text"
+                    placeholder="Example: North"
+                    required
+                >
+
+                <label for="missingDate">Report date</label>
+                <input id="missingDate" type="date" required>
+
+                <label for="missingImage">Upload fictional image</label>
+                <div class="image-upload">
+                    <input
+                        id="missingImage"
+                        type="file"
+                        accept="image/jpeg,image/png,image/webp"
+                        required
+                    >
+
+                    <p class="small-note">
+                        JPG, PNG, or WebP. Maximum size: 5 MB.
+                    </p>
+
+                    <img
+                        id="missingImagePreview"
+                        class="image-preview"
+                        alt="Missing report demo image preview"
+                    >
+                </div>
+
+                <label for="missingDetails">Non-identifying details</label>
+                <textarea
+                    id="missingDetails"
+                    placeholder="Enter fictional information only"
+                ></textarea>
+
+                <label>
+                    <input id="missingConsent" type="checkbox" required>
+                    I confirm this is synthetic demo data and an authorized image.
+                </label>
+
+                <button class="btn" type="submit">Save Report</button>
+            </form>
+
+            <p id="missingMessage" role="status" aria-live="polite"></p>
+        </div>
+    </section>
+
+    <!-- FOUND CHILD FORM -->
+    <section id="found" class="page">
         <div class="card">
-            <h3>Report Found</h3>
-            <p>Record that a child needs help, without publishing identifying information.</p>
-            <button class="action" data-go="found">Open Form</button>
-        </div>
+            <h2>Found Child — Report</h2>
 
+            <p class="small-note">
+                Use fictional information and a fictional image only.
+            </p>
+
+            <form id="foundForm">
+                <label for="foundAge">Approximate age</label>
+                <input
+                    id="foundAge"
+                    type="number"
+                    min="0"
+                    max="17"
+                    placeholder="Example: 5"
+                    required
+                >
+
+                <label for="foundArea">General area</label>
+                <input
+                    id="foundArea"
+                    type="text"
+                    placeholder="Example: North"
+                    required
+                >
+
+                <label for="foundDate">Report date</label>
+                <input id="foundDate" type="date" required>
+
+                <label for="foundImage">Upload fictional image</label>
+                <div class="image-upload">
+                    <input
+                        id="foundImage"
+                        type="file"
+                        accept="image/jpeg,image/png,image/webp"
+                        required
+                    >
+
+                    <p class="small-note">
+                        JPG, PNG, or WebP. Maximum size: 5 MB.
+                    </p>
+
+                    <img
+                        id="foundImagePreview"
+                        class="image-preview"
+                        alt="Found report demo image preview"
+                    >
+                </div>
+
+                <label for="foundDetails">Non-identifying details</label>
+                <textarea
+                    id="foundDetails"
+                    placeholder="Enter fictional information only"
+                ></textarea>
+
+                <label>
+                    <input id="foundConsent" type="checkbox" required>
+                    I confirm this is synthetic demo data and an authorized image.
+                </label>
+
+                <button class="btn" type="submit">Save Report</button>
+            </form>
+
+            <p id="foundMessage" role="status" aria-live="polite"></p>
+        </div>
+    </section>
+
+    <!-- POTENTIAL MATCHES -->
+    <section id="matches" class="page">
         <div class="card">
-            <h3>Possible Matches</h3>
-            <p>Review potential matches based on basic details.</p>
-            <button class="action" data-go="matches">View Matches</button>
+            <h2>Potential Matches</h2>
+
+            <p>
+                This demo finds records with the same approximate age and
+                general area, then displays their images side by side.
+                It does not perform facial recognition or confirm identity.
+            </p>
+
+            <div id="matchResults"></div>
         </div>
+    </section>
 
-        <div class="card">
-            <h3>Dashboard</h3>
-            <p>View counts of demo records stored in this browser.</p>
-            <button class="action" data-go="dashboard">View Dashboard</button>
-        </div>
-    </div>
-</section>
+    <!-- DASHBOARD -->
+    <section id="dashboard" class="page">
+        <h2>Dashboard</h2>
 
-<!-- REPORT MISSING -->
-<section id="missing" class="page">
-    <form id="missingForm">
-        <h2>Report a Missing Child</h2>
-
-        <p class="muted">Use fictional data for testing. Do not enter real children's private information in this demo.</p>
-
-        <div class="form-group">
-            <label for="missingName">Child's name or case label</label>
-            <input id="missingName" required maxlength="80" placeholder="Example: Demo Case M-001">
-        </div>
-
-        <div class="form-group">
-            <label for="missingAge">Approximate age</label>
-            <input id="missingAge" type="number" min="0" max="17" required>
-        </div>
-
-        <div class="form-group">
-            <label for="missingDistrict">District / general area</label>
-            <input id="missingDistrict" required maxlength="80" placeholder="Example: Demo District">
-        </div>
-
-        <div class="form-group">
-            <label for="missingDate">Date last seen</label>
-            <input id="missingDate" type="date" required>
-        </div>
-
-        <div class="form-group">
-            <label for="missingDetails">Additional non-sensitive details</label>
-            <textarea id="missingDetails" maxlength="500" placeholder="Use fictional test details only"></textarea>
-        </div>
-
-        <button type="submit">Save Demo Report</button>
-        <div class="result" id="missingResult" role="status" aria-live="polite"></div>
-    </form>
-</section>
-
-<!-- REPORT FOUND -->
-<section id="found" class="page">
-    <form id="foundForm">
-        <h2>Report a Found Child</h2>
-
-        <p class="muted">For this prototype, use fictional details only. In a real incident, contact the police or child-protection services and follow their instructions.</p>
-
-        <div class="form-group">
-            <label for="foundAge">Approximate age</label>
-            <input id="foundAge" type="number" min="0" max="17" required>
-        </div>
-
-        <div class="form-group">
-            <label for="foundDistrict">District / general area</label>
-            <input id="foundDistrict" required maxlength="80" placeholder="Example: Demo District">
-        </div>
-
-        <div class="form-group">
-            <label for="foundDate">Date found</label>
-            <input id="foundDate" type="date" required>
-        </div>
-
-        <div class="form-group">
-            <label for="foundDetails">Non-sensitive notes</label>
-            <textarea id="foundDetails" maxlength="500" placeholder="Example: Demo child was brought to an authorized help desk"></textarea>
-        </div>
-
-        <button type="submit">Save Demo Report</button>
-        <div class="result" id="foundResult" role="status" aria-live="polite"></div>
-    </form>
-</section>
-
-<!-- POSSIBLE MATCHES -->
-<section id="matches" class="page">
-    <div class="hero">
-        <h2>Possible Matches</h2>
-        <p>Potential matches are based on approximate age and general area. A match is not proof of identity.</p>
-        <div class="notice">
-            This demo does not use facial recognition. In a real system, potential matches must be reviewed by authorized child-protection personnel.
-        </div>
-    </div>
-
-    <div id="matchList"></div>
-</section>
-
-<!-- DASHBOARD -->
-<section id="dashboard" class="page">
-    <div class="hero">
-        <h2>Demo Dashboard</h2>
-        <p>Counts of reports saved in this browser.</p>
-
-        <div class="cards">
-            <div class="card">
-                <h3>Missing Reports</h3>
-                <div class="stat" id="missingCount">0</div>
+        <div class="stats">
+            <div class="stat">
+                Missing reports
+                <strong id="missingCount">0</strong>
             </div>
 
-            <div class="card">
-                <h3>Found Reports</h3>
-                <div class="stat" id="foundCount">0</div>
+            <div class="stat">
+                Found reports
+                <strong id="foundCount">0</strong>
             </div>
 
-            <div class="card">
-                <h3>Potential Matches</h3>
-                <div class="stat" id="matchCount">0</div>
+            <div class="stat">
+                Potential matches
+                <strong id="matchCount">0</strong>
             </div>
         </div>
-    </div>
 
-    <div class="notice">
-        Browser storage is not a secure database. Do not use this prototype to store real reports or children's personal information.
-    </div>
+        <div class="card">
+            <h2>Manage data</h2>
 
-    <button class="action" id="exportButton">Export Demo Data as JSON</button>
-    <button class="action" id="clearButton">Clear Demo Data</button>
-    <div id="dashboardMessage" role="status" aria-live="polite"></div>
-</section>
+            <button class="btn" onclick="exportData()">Export JSON</button>
+            <button class="btn" onclick="clearData()">Clear Data</button>
+
+            <p id="dashboardMessage" role="status"></p>
+        </div>
+    </section>
+
+    <!-- SAFETY -->
+    <section id="safety" class="page">
+        <div class="card">
+            <h2>Safety & Privacy</h2>
+
+            <p>
+                This is an educational prototype. Do not upload real children's
+                photos or enter real names, exact locations, school details,
+                or contact information.
+            </p>
+
+            <div class="notice">
+                <strong>Before real-world deployment</strong>
+                <p>
+                    The system would require secure storage, verified access,
+                    audit logs, retention rules, and legal and child-safeguarding
+                    review. Any potential match must be reviewed by authorized
+                    professionals.
+                </p>
+            </div>
+        </div>
+    </section>
 
 </main>
 
 <footer>
-    FindMyChild | Educational Prototype | Not an official reporting service
+    <p><strong>FindMyChild</strong></p>
+    <p>Privacy • Dignity • Authorized Review</p>
+    <small>Educational prototype — not an official reporting service.</small>
 </footer>
 
 <script>
-"use strict";
+    "use strict";
 
-// Browser-only demo storage. Use synthetic data only.
-const STORAGE_KEY = "findMyChildDemo_v1";
+    // Browser-only demo storage. Use fictional records and images only.
+    const STORAGE_KEY = "findMyChildDemo";
+    const MAX_FILE_SIZE = 5 * 1024 * 1024;
+    const MAX_IMAGE_SIDE = 640;
 
-function loadData() {
-    try {
-        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+    let data = loadData();
 
-        return {
-            missing: Array.isArray(saved.missing) ? saved.missing : [],
-            found: Array.isArray(saved.found) ? saved.found : []
-        };
-    } catch (error) {
-        return { missing: [], found: [] };
-    }
-}
-
-let data = loadData();
-
-function saveData() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-}
-
-function clean(value) {
-    return String(value || "").trim();
-}
-
-function showPage(pageId) {
-    document.querySelectorAll(".page").forEach(page => {
-        page.classList.toggle("active", page.id === pageId);
-    });
-
-    document.querySelectorAll("nav button[data-page]").forEach(button => {
-        button.classList.toggle("active", button.dataset.page === pageId);
-    });
-
-    if (pageId === "matches") renderMatches();
-    if (pageId === "dashboard") renderDashboard();
-
-    window.scrollTo({ top: 0, behavior: "smooth" });
-}
-
-document.querySelectorAll("[data-page]").forEach(button => {
-    button.addEventListener("click", () => showPage(button.dataset.page));
-});
-
-document.querySelectorAll("[data-go]").forEach(button => {
-    button.addEventListener("click", () => showPage(button.dataset.go));
-});
-
-function showMessage(elementId, message) {
-    const element = document.getElementById(elementId);
-    element.textContent = message;
-    element.style.display = "block";
-}
-
-// Missing report form
-document.getElementById("missingForm").addEventListener("submit", event => {
-    event.preventDefault();
-
-    const record = {
-        id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()),
-        label: clean(document.getElementById("missingName").value),
-        age: Number(document.getElementById("missingAge").value),
-        district: clean(document.getElementById("missingDistrict").value),
-        date: document.getElementById("missingDate").value,
-        details: clean(document.getElementById("missingDetails").value)
+    const selectedImages = {
+        missing: null,
+        found: null
     };
 
-    if (!record.label || !record.district || !record.date ||
-        !Number.isInteger(record.age) || record.age < 0 || record.age > 17) {
-        showMessage("missingResult", "Please enter valid demo information.");
-        return;
+    // Load saved demo records.
+    function loadData() {
+        try {
+            const saved = JSON.parse(
+                localStorage.getItem(STORAGE_KEY) || "{}"
+            );
+
+            return {
+                missing: Array.isArray(saved.missing) ? saved.missing : [],
+                found: Array.isArray(saved.found) ? saved.found : []
+            };
+        } catch (error) {
+            return { missing: [], found: [] };
+        }
     }
 
-    data.missing.push(record);
-    saveData();
+    function createId() {
+        if (window.crypto && crypto.randomUUID) {
+            return crypto.randomUUID();
+        }
 
-    event.target.reset();
-    showMessage("missingResult", "Demo missing report saved in this browser.");
-});
-
-// Found report form
-document.getElementById("foundForm").addEventListener("submit", event => {
-    event.preventDefault();
-
-    const record = {
-        id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()),
-        age: Number(document.getElementById("foundAge").value),
-        district: clean(document.getElementById("foundDistrict").value),
-        date: document.getElementById("foundDate").value,
-        details: clean(document.getElementById("foundDetails").value)
-    };
-
-    if (!record.district || !record.date ||
-        !Number.isInteger(record.age) || record.age < 0 || record.age > 17) {
-        showMessage("foundResult", "Please enter valid demo information.");
-        return;
+        return Date.now() + "-" + Math.random().toString(16).slice(2);
     }
 
-    data.found.push(record);
-    saveData();
+    // Validate, read, and resize an image before saving it.
+    function readAndResizeImage(file) {
+        return new Promise((resolve, reject) => {
+            if (!file) {
+                reject(new Error("Please select an image."));
+                return;
+            }
 
-    event.target.reset();
-    showMessage("foundResult", "Demo found-child report saved in this browser.");
-});
+            const allowedTypes = [
+                "image/jpeg",
+                "image/png",
+                "image/webp"
+            ];
 
-// Basic potential-match logic. This does not establish identity.
-function getMatches() {
-    const matches = [];
+            if (!allowedTypes.includes(file.type)) {
+                reject(new Error("Choose a JPG, PNG, or WebP image."));
+                return;
+            }
 
-    data.missing.forEach(missing => {
-        data.found.forEach(found => {
-            const sameAge = missing.age === found.age;
-            const sameDistrict =
-                missing.district.toLowerCase() === found.district.toLowerCase();
+            if (file.size > MAX_FILE_SIZE) {
+                reject(new Error("Image must be smaller than 5 MB."));
+                return;
+            }
 
-            if (sameAge && sameDistrict) {
-                matches.push({ missing, found });
+            const reader = new FileReader();
+
+            reader.onerror = () => {
+                reject(new Error("Could not read this image."));
+            };
+
+            reader.onload = () => {
+                const image = new Image();
+
+                image.onerror = () => {
+                    reject(new Error("Could not open this image."));
+                };
+
+                image.onload = () => {
+                    const scale = Math.min(
+                        1,
+                        MAX_IMAGE_SIDE /
+                            Math.max(image.width, image.height)
+                    );
+
+                    const canvas = document.createElement("canvas");
+
+                    canvas.width = Math.max(
+                        1,
+                        Math.round(image.width * scale)
+                    );
+
+                    canvas.height = Math.max(
+                        1,
+                        Math.round(image.height * scale)
+                    );
+
+                    const context = canvas.getContext("2d");
+
+                    if (!context) {
+                        reject(new Error("Could not process this image."));
+                        return;
+                    }
+
+                    context.drawImage(
+                        image,
+                        0,
+                        0,
+                        canvas.width,
+                        canvas.height
+                    );
+
+                    resolve(canvas.toDataURL("image/jpeg", 0.75));
+                };
+
+                image.src = reader.result;
+            };
+
+            reader.readAsDataURL(file);
+        });
+    }
+
+    // Show an image preview when a user selects a file.
+    function setupImageInput(type) {
+        const input = document.getElementById(type + "Image");
+        const preview = document.getElementById(type + "ImagePreview");
+        const message = document.getElementById(type + "Message");
+
+        input.addEventListener("change", async function () {
+            selectedImages[type] = null;
+            preview.removeAttribute("src");
+            preview.style.display = "none";
+            message.textContent = "";
+
+            const file = input.files[0];
+
+            if (!file) return;
+
+            message.textContent = "Preparing image...";
+
+            try {
+                const imageData = await readAndResizeImage(file);
+
+                selectedImages[type] = imageData;
+                preview.src = imageData;
+                preview.style.display = "block";
+
+                message.textContent = "Demo image ready.";
+            } catch (error) {
+                input.value = "";
+                message.textContent = error.message;
             }
         });
-    });
-
-    return matches;
-}
-
-function makeElement(tag, text, className) {
-    const element = document.createElement(tag);
-    element.textContent = text;
-
-    if (className) element.className = className;
-
-    return element;
-}
-
-function renderMatches() {
-    const list = document.getElementById("matchList");
-    list.replaceChildren();
-
-    const matches = getMatches();
-
-    if (matches.length === 0) {
-        list.appendChild(makeElement(
-            "p",
-            "No potential matches found. Add synthetic missing and found reports with the same age and district to test this feature."
-        ));
-        return;
     }
 
-    matches.forEach(({ missing, found }, index) => {
-        const card = document.createElement("article");
-        card.className = "record";
+    setupImageInput("missing");
+    setupImageInput("found");
 
-        card.appendChild(makeElement("h3", "Potential Match " + (index + 1)));
-        card.appendChild(makeElement("p", "Missing case: " + missing.label));
-        card.appendChild(makeElement("p", "Approximate age: " + missing.age));
-        card.appendChild(makeElement("p", "General area: " + missing.district));
-        card.appendChild(makeElement("p", "Found report date: " + found.date));
-        card.appendChild(makeElement(
-            "p",
-            "Status: Requires authorized human review; identity is not confirmed."
-        ));
+    // Save demo reports to this browser.
+    function saveData() {
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+            updateDashboard();
+            return true;
+        } catch (error) {
+            alert(
+                "Could not save demo data. Try smaller images or clear old records."
+            );
+            return false;
+        }
+    }
 
-        list.appendChild(card);
-    });
-}
+    // Switch between pages.
+    function showPage(pageId) {
+        document.querySelectorAll(".page").forEach(page => {
+            page.classList.toggle("active", page.id === pageId);
+        });
 
-function renderDashboard() {
-    document.getElementById("missingCount").textContent = data.missing.length;
-    document.getElementById("foundCount").textContent = data.found.length;
-    document.getElementById("matchCount").textContent = getMatches().length;
-}
+        if (pageId === "dashboard") updateDashboard();
+        if (pageId === "matches") showMatches();
 
-document.getElementById("exportButton").addEventListener("click", () => {
-    const file = new Blob([JSON.stringify(data, null, 2)], {
-        type: "application/json"
-    });
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    }
 
-    const url = URL.createObjectURL(file);
-    const link = document.createElement("a");
+    // Submit a missing-child demo report.
+    document.getElementById("missingForm").addEventListener(
+        "submit",
+        function (event) {
+            event.preventDefault();
 
-    link.href = url;
-    link.download = "findmychild-demo-data.json";
-    link.click();
+            const message = document.getElementById("missingMessage");
 
-    URL.revokeObjectURL(url);
-    showMessage("dashboardMessage", "Demo JSON export requested.");
-});
+            if (!selectedImages.missing) {
+                message.textContent =
+                    "Please select a valid fictional demo image.";
+                return;
+            }
 
-document.getElementById("clearButton").addEventListener("click", () => {
-    const confirmed = window.confirm(
-        "Delete all FindMyChild demo reports stored in this browser?"
+            const report = {
+                id: createId(),
+                label: document.getElementById("missingLabel").value.trim(),
+                age: Number(document.getElementById("missingAge").value),
+                area: document.getElementById("missingArea").value.trim(),
+                date: document.getElementById("missingDate").value,
+                details: document.getElementById("missingDetails").value.trim(),
+                image: selectedImages.missing
+            };
+
+            data.missing.push(report);
+
+            if (!saveData()) {
+                data.missing.pop();
+                return;
+            }
+
+            this.reset();
+            selectedImages.missing = null;
+
+            const preview = document.getElementById("missingImagePreview");
+            preview.removeAttribute("src");
+            preview.style.display = "none";
+
+            message.textContent =
+                "Synthetic missing report and image saved in this browser.";
+        }
     );
 
-    if (!confirmed) return;
+    // Submit a found-child demo report.
+    document.getElementById("foundForm").addEventListener(
+        "submit",
+        function (event) {
+            event.preventDefault();
 
-    data = { missing: [], found: [] };
-    saveData();
-    renderDashboard();
-    renderMatches();
+            const message = document.getElementById("foundMessage");
 
-    showMessage("dashboardMessage", "Demo reports cleared.");
-});
+            if (!selectedImages.found) {
+                message.textContent =
+                    "Please select a valid fictional demo image.";
+                return;
+            }
 
-// Initial dashboard state
-renderDashboard();
+            const report = {
+                id: createId(),
+                age: Number(document.getElementById("foundAge").value),
+                area: document.getElementById("foundArea").value.trim(),
+                date: document.getElementById("foundDate").value,
+                details: document.getElementById("foundDetails").value.trim(),
+                image: selectedImages.found
+            };
+
+            data.found.push(report);
+
+            if (!saveData()) {
+                data.found.pop();
+                return;
+            }
+
+            this.reset();
+            selectedImages.found = null;
+
+            const preview = document.getElementById("foundImagePreview");
+            preview.removeAttribute("src");
+            preview.style.display = "none";
+
+            message.textContent =
+                "Synthetic found report and image saved in this browser.";
+        }
+    );
+
+    // Build an image panel safely using DOM elements.
+    function makeImagePanel(title, imageData) {
+        const panel = document.createElement("div");
+        panel.className = "match-image-panel";
+
+        const heading = document.createElement("strong");
+        heading.textContent = title;
+        panel.appendChild(heading);
+
+        if (imageData) {
+            const image = document.createElement("img");
+            image.src = imageData;
+            image.alt = title + " (synthetic demo image)";
+            panel.appendChild(image);
+        } else {
+            const note = document.createElement("p");
+            note.textContent = "No image available.";
+            panel.appendChild(note);
+        }
+
+        return panel;
+    }
+
+    // Find candidate records using age and general area.
+    // This is NOT facial recognition.
+    function showMatches() {
+        const results = document.getElementById("matchResults");
+
+        if (!results) return;
+
+        results.replaceChildren();
+
+        let count = 0;
+
+        data.missing.forEach(missing => {
+            data.found.forEach(found => {
+                const sameAge =
+                    Number(missing.age) === Number(found.age);
+
+                const sameArea =
+                    missing.area.trim().toLowerCase() ===
+                    found.area.trim().toLowerCase();
+
+                if (!sameAge || !sameArea) return;
+
+                count++;
+
+                const card = document.createElement("div");
+                card.className = "card";
+
+                const heading = document.createElement("h3");
+                heading.textContent = "Potential Demo Match " + count;
+
+                const details = document.createElement("p");
+                details.textContent =
+                    "Case: " + missing.label +
+                    " | Approximate age: " + missing.age +
+                    " | General demo area: " + missing.area;
+
+                const imageGrid = document.createElement("div");
+                imageGrid.className = "match-images";
+
+                imageGrid.appendChild(
+                    makeImagePanel("Missing report image", missing.image)
+                );
+
+                imageGrid.appendChild(
+                    makeImagePanel("Found report image", found.image)
+                );
+
+                const warning = document.createElement("p");
+                warning.className = "notice";
+                warning.textContent =
+                    "Candidate found using age and area only. " +
+                    "Images are shown for visual review. This application " +
+                    "does not recognize faces or verify identity.";
+
+                card.append(heading, details, imageGrid, warning);
+                results.appendChild(card);
+            });
+        });
+
+        if (count === 0) {
+            const message = document.createElement("p");
+
+            message.textContent =
+                "No potential demo matches found. A candidate appears " +
+                "when approximate age and general area match.";
+
+            results.appendChild(message);
+        }
+
+        document.getElementById("matchCount").textContent = count;
+    }
+
+    // Update dashboard counters.
+    function updateDashboard() {
+        document.getElementById("missingCount").textContent =
+            data.missing.length;
+
+        document.getElementById("foundCount").textContent =
+            data.found.length;
+
+        showMatches();
+    }
+
+    // Export demo reports, including image data, as JSON.
+    function exportData() {
+        const exportObject = {
+            demoOnly: true,
+            missing: data.missing,
+            found: data.found
+        };
+
+        const blob = new Blob(
+            [JSON.stringify(exportObject, null, 2)],
+            { type: "application/json" }
+        );
+
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+
+        link.href = url;
+        link.download = "findmychild-demo-data.json";
+        link.click();
+
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+    }
+
+    // Remove all demo reports and images from this browser.
+    function clearData() {
+        if (!confirm("Clear all synthetic demo reports and images?")) {
+            return;
+        }
+
+        data = { missing: [], found: [] };
+        localStorage.removeItem(STORAGE_KEY);
+
+        updateDashboard();
+
+        document.getElementById("dashboardMessage").textContent =
+            "All synthetic demo reports and images were cleared.";
+    }
+
+    updateDashboard();
 </script>
 
 </body>
